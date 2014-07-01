@@ -17,9 +17,9 @@
         </repository>
     </repositories>
 
-	<groupId>com.hubspot.dropwizard</groupId>
+	<groupId>com.cirrus</groupId>
 	<artifactId>dropwizard-guice</artifactId>
-	<version>0.7.0.2</version>
+	<version>0.7.0.3-SNAPSHOT</version>
 	<name>Dropwizard Guice Support</name>
 	<description>Simple library for using Guice DI in a dropwizard service.</description>
 	<url>https://github.com/HubSpot/dropwizard-guice</url>
@@ -90,21 +90,6 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>2.2.1</version>
                 <executions>
@@ -117,19 +102,6 @@
                 </executions>
             </plugin>
 
-            <plugin>
-             <groupId>org.apache.maven.plugins</groupId>
-             <artifactId>maven-javadoc-plugin</artifactId>
-             <version>2.9</version>
-             <executions>
-                 <execution>
-                     <id>generate-javadoc-jar</id>
-                     <goals>
-                         <goal>jar</goal>
-                     </goals>
-                 </execution>
-             </executions>
-            </plugin>
         </plugins>
     </build>
 
