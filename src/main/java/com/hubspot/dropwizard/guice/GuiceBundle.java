@@ -93,11 +93,7 @@ public class GuiceBundle<T extends Configuration> implements ConfiguredBundle<T>
         modules.add(jerseyContainerModule);
         modules.add(dropwizardEnvironmentModule);
 
-        initInjector();
 
-        if (autoConfig != null) {
-            autoConfig.initialize(bootstrap, injector);
-        }
     }
 
     private void initInjector() {
@@ -111,6 +107,9 @@ public class GuiceBundle<T extends Configuration> implements ConfiguredBundle<T>
 
     @Override
     public void run(final T configuration, final Environment environment) {
+        dropwizardEnvironmentModule.setEnvironmentData(configuration, environment);
+        initInjector();
+
         container.setResourceConfig(environment.jersey().getResourceConfig());
         environment.jersey().replace(new Function<ResourceConfig, ServletContainer>() {
             @Nullable
@@ -121,7 +120,6 @@ public class GuiceBundle<T extends Configuration> implements ConfiguredBundle<T>
         });
         environment.servlets().addFilter("Guice Filter", GuiceFilter.class)
                 .addMappingForUrlPatterns(null, false, environment.getApplicationContext().getContextPath() + "*");
-        setEnvironment(configuration, environment);
 
         if (autoConfig != null) {
             autoConfig.run(environment, injector);

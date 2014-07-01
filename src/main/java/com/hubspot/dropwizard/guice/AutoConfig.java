@@ -1,13 +1,11 @@
 package com.hubspot.dropwizard.guice;
 
-import io.dropwizard.Bundle;
-import io.dropwizard.lifecycle.Managed;
-import io.dropwizard.servlets.tasks.Task;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
 import com.google.common.base.Preconditions;
 import com.google.inject.Injector;
 import com.sun.jersey.spi.inject.InjectableProvider;
+import io.dropwizard.lifecycle.Managed;
+import io.dropwizard.servlets.tasks.Task;
+import io.dropwizard.setup.Environment;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -29,7 +27,7 @@ public class AutoConfig {
 
 	public AutoConfig(String... basePackages) {
 		Preconditions.checkArgument(basePackages.length > 0);
-		
+
 		ConfigurationBuilder cfgBldr = new ConfigurationBuilder();
 		FilterBuilder filterBuilder = new FilterBuilder();
 		for (String basePkg : basePackages) {
@@ -49,10 +47,6 @@ public class AutoConfig {
 		addResources(environment, injector);
 		addTasks(environment, injector);
 		addManaged(environment, injector);
-	}
-
-	public void initialize(Bootstrap<?> bootstrap, Injector injector) {
-		addBundles(bootstrap, injector);
 	}
 
 	private void addManaged(Environment environment, Injector injector) {
@@ -109,15 +103,6 @@ public class AutoConfig {
 		for (Class<?> resource : resourceClasses) {
 			environment.jersey().register(resource);
 			logger.info("Added resource class: {}", resource);
-		}
-	}
-
-	private void addBundles(Bootstrap<?> bootstrap, Injector injector) {
-		Set<Class<? extends Bundle>> bundleClasses = reflections
-				.getSubTypesOf(Bundle.class);
-		for (Class<? extends Bundle> bundle : bundleClasses) {
-			bootstrap.addBundle(injector.getInstance(bundle));
-			logger.info("Added bundle class {} during bootstrap", bundle);
 		}
 	}
 }
