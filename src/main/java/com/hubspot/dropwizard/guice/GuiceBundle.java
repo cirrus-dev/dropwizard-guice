@@ -1,9 +1,5 @@
 package com.hubspot.dropwizard.guice;
 
-import io.dropwizard.Configuration;
-import io.dropwizard.ConfiguredBundle;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -15,15 +11,15 @@ import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceFilter;
 import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.dropwizard.Configuration;
+import io.dropwizard.ConfiguredBundle;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class GuiceBundle<T extends Configuration> implements ConfiguredBundle<T> {
-
-    final Logger logger = LoggerFactory.getLogger(GuiceBundle.class);
 
     private final AutoConfig autoConfig;
     private final List<Module> modules;
@@ -100,7 +96,8 @@ public class GuiceBundle<T extends Configuration> implements ConfiguredBundle<T>
         try {
 	        injector = Guice.createInjector(this.stage, modules);
         } catch(Exception ie) {
-		    logger.error("Exception occurred when creating Guice Injector - exiting", ie);
+            System.out.println("Exception occurred when creating Guice Injector - exiting");
+            ie.printStackTrace();
 		    System.exit(1);
 	    }
     }
